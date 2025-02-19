@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  ProfileView.swift
 //  livescore
 //
 //  Created by hyunMac on 2/20/25.
@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct ProfileView: View {
     var body: some View {
-        VStack {
-            Text("홈 뷰")
-        }
+        Text("프로필 뷰")
     }
 }
 
 #Preview {
-    HomeView()
+    ProfileView()
 }
