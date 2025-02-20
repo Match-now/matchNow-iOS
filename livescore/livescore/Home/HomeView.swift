@@ -11,6 +11,7 @@ enum HomeRoute {
     case profile
     case signUp
     case matchDetail
+    case calendar
 }
 
 struct HomeView: View {
@@ -32,10 +33,30 @@ struct HomeView: View {
                 }
                 //프로필 뷰 이동 , 로그인 안된경우 로그인 페이지
     
-                NavigationLink(value: HomeRoute.matchDetail) {
+                Button {
+                    path.append(HomeRoute.matchDetail)
+                } label: {
                     Text("경기1")
                 }
                 //경기 상세로 이동
+                
+                Button {
+                    if SignupManager.shared.isLogin {
+                        print("관심경기 추가완료")
+                    } else {
+                        path.append(HomeRoute.signUp)
+                    }
+                } label: {
+                    Text("관심경기 등록버튼")
+                }
+                //관심경기 등록버튼
+                
+                Button {
+                    path.append(HomeRoute.calendar)
+                } label: {
+                    Text("달력")
+                }
+                //달력 뷰로 이동
             }
             .navigationDestination(for: HomeRoute.self) { route in
                 switch route {
@@ -45,6 +66,8 @@ struct HomeView: View {
                     SignUpView()
                 case .matchDetail:
                     MatchDetailView()
+                case .calendar:
+                    CalendarView()
                 }
             }
         }

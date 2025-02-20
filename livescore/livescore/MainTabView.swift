@@ -30,7 +30,6 @@ struct MainTabView: View {
                 .tabItem {
                     Text("더보기")
                 }
-            
         }
     }
 }
