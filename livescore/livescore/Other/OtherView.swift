@@ -9,7 +9,13 @@ import SwiftUI
 
 struct OtherView: View {
     var body: some View {
-        Text("더보기 뷰")
+        VStack {
+            Text("더보기 뷰")
+            
+            Button("로그아웃 테스트") {
+                SignupManager.shared.isLogin = false
+            }
+        }
     }
 }
 
