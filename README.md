@@ -1,4 +1,4 @@
-<img width="1028" alt="스크린샷 2025-02-20 오전 7 05 25" src="https://github.com/user-attachments/assets/8a81e004-a593-40fa-bf6b-79c721430305" />
+<img width="856" alt="스크린샷 2025-02-21 오전 3 08 28" src="https://github.com/user-attachments/assets/8a87b8e6-3651-42bd-b8a5-b8f528c16d9b" />
 
 ## 네비게이션 세팅
 
