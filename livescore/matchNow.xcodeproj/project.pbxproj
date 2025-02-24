@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		92EC83482D665CC800ADF44B /* livescore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = livescore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		92EC83482D665CC800ADF44B /* matchNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = matchNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,7 +40,7 @@
 		92EC83492D665CC800ADF44B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				92EC83482D665CC800ADF44B /* livescore.app */,
+				92EC83482D665CC800ADF44B /* matchNow.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		92EC83472D665CC800ADF44B /* livescore */ = {
+		92EC83472D665CC800ADF44B /* matchNow */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 92EC83562D665CC800ADF44B /* Build configuration list for PBXNativeTarget "livescore" */;
+			buildConfigurationList = 92EC83562D665CC800ADF44B /* Build configuration list for PBXNativeTarget "matchNow" */;
 			buildPhases = (
 				92EC83442D665CC800ADF44B /* Sources */,
 				92EC83452D665CC800ADF44B /* Frameworks */,
@@ -63,11 +63,11 @@
 			fileSystemSynchronizedGroups = (
 				92EC834A2D665CC800ADF44B /* livescore */,
 			);
-			name = livescore;
+			name = matchNow;
 			packageProductDependencies = (
 			);
 			productName = livescore;
-			productReference = 92EC83482D665CC800ADF44B /* livescore.app */;
+			productReference = 92EC83482D665CC800ADF44B /* matchNow.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				92EC83472D665CC800ADF44B /* livescore */,
+				92EC83472D665CC800ADF44B /* matchNow */,
 			);
 		};
 /* End PBXProject section */
@@ -264,7 +264,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.morgan.livescore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.morgan.matchNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -292,7 +292,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.morgan.livescore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.morgan.matchNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -312,7 +312,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		92EC83562D665CC800ADF44B /* Build configuration list for PBXNativeTarget "livescore" */ = {
+		92EC83562D665CC800ADF44B /* Build configuration list for PBXNativeTarget "matchNow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				92EC83572D665CC800ADF44B /* Debug */,
