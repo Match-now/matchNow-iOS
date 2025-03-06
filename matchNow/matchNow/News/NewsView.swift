@@ -7,9 +7,30 @@
 
 import SwiftUI
 
+enum NewsRoute {
+    case newsDetail
+}
+
 struct NewsView: View {
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        Text("뉴스 뷰")
+        NavigationStack(path: $path) {
+            VStack {
+                Text("뉴스 뷰")
+                Button {
+                    path.append(NewsRoute.newsDetail)
+                } label: {
+                    Text("뉴스 보기")
+                }
+            }
+            .navigationDestination(for: NewsRoute.self) { route in
+                switch route {
+                case .newsDetail:
+                    NewsDetailView()
+                }
+            }
+        }
     }
 }
 
