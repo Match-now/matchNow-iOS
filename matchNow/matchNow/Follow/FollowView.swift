@@ -7,9 +7,31 @@
 
 import SwiftUI
 
+enum FollowRoute {
+    case matchDetail
+}
+
 struct FollowView: View {
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        Text("팔로우 뷰")
+        NavigationStack(path: $path) {
+            VStack {
+                Text("팔로우 뷰")
+                
+                Button {
+                    path.append(FollowRoute.matchDetail)
+                } label: {
+                    Text("경기 1")
+                }
+            }
+            .navigationDestination(for: FollowRoute.self) { route in
+                switch route {
+                case .matchDetail:
+                    MatchDetailView()
+                }
+            }
+        }
     }
 }
 
