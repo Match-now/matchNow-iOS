@@ -22,7 +22,8 @@ struct DateNavigationView: View {
                     .foregroundStyle(.black)
                     .opacity(0.8)
             }
-            .frame(minWidth: 44, minHeight: 44)
+//            .frame(minWidth: 44, minHeight: 44)
+            //HIG 맞춰야하면 추가
             
             Spacer()
             
@@ -35,7 +36,8 @@ struct DateNavigationView: View {
                     .overlay(alignment: .bottom) {
                         Rectangle()
                             .frame(width: 30, height: 3)
-                            .offset(y:14)
+                            .offset(y:10)
+                        //HIG 맞춰야하면 버튼에 따라 알맞게 변환할것
                             .foregroundStyle(.blue)
                     }
                 
@@ -52,7 +54,8 @@ struct DateNavigationView: View {
                     .foregroundStyle(.black)
                     .opacity(0.8)
             }
-            .frame(minWidth: 44, minHeight: 44)
+//            .frame(minWidth: 44, minHeight: 44)
+            //HIG맞춰야하면추가
             
             Spacer()
         }

@@ -40,28 +40,36 @@ struct HomeView: View {
                         viewModel.moveDate(by: 1)
                     }
                 )
+                .padding(4)
                 
-                Spacer()
-                
-                Button {
-                    path.append(HomeRoute.matchDetail)
-                } label: {
-                    Text("경기1")
-                }
-                //경기 상세로 이동
-                
-                Button {
-                    if SignupManager.shared.isLogin {
-                        print("관심경기 추가완료")
-                    } else {
-                        path.append(HomeRoute.signUp)
+                ZStack {
+                    Color.gray
+                        .opacity(0.1)
+                    VStack {
+                        NoticeView(notice: viewModel.noticeMessage)
+                            .padding(.top, 8)
+                            .padding(.horizontal, 4)
+                        Spacer()
+                        
+                        Button {
+                            path.append(HomeRoute.matchDetail)
+                        } label: {
+                            Text("경기1")
+                        }
+                        //경기 상세로 이동
+                        
+                        Button {
+                            if SignupManager.shared.isLogin {
+                                print("관심경기 추가완료")
+                            } else {
+                                path.append(HomeRoute.signUp)
+                            }
+                        } label: {
+                            Text("관심경기 등록버튼")
+                        }
+                        //관심경기 등록버튼
                     }
-                } label: {
-                    Text("관심경기 등록버튼")
                 }
-                //관심경기 등록버튼
-                
-                
             }
             .navigationDestination(for: HomeRoute.self) { route in
                 switch route {

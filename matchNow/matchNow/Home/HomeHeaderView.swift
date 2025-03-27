@@ -25,7 +25,8 @@ struct HomeHeaderView: View {
                     .resizable()
                     .frame(width: 22, height: 22)
             }
-            .frame(minWidth: 44, minHeight: 44)
+//            .frame(minWidth: 44, minHeight: 44)
+            // HIG 맞춰야하면 추가
 
             
             Button(action: calendarTap) {
@@ -33,7 +34,8 @@ struct HomeHeaderView: View {
                     .resizable()
                     .frame(width: 22, height: 22)
             }
-            .frame(minWidth: 44, minHeight: 44)
+//            .frame(minWidth: 44, minHeight: 44)
+            // HIG 맞춰야하면 추가
 
         }
         .padding(.horizontal)
