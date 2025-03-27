@@ -14,21 +14,49 @@ struct DateNavigationView: View {
     
     var body: some View {
         HStack {
+            Spacer()
+            
             Button(action: prevDate) {
                 Text(formattedDate(changeDate(by: -1, date: selectedDate)))
+                    .font(.caption)
+                    .foregroundStyle(.black)
+                    .opacity(0.8)
             }
+            .frame(minWidth: 44, minHeight: 44)
             
             Spacer()
             
-            Text(formattedCenterDate(selectedDate))
+            Spacer()
+            
+            VStack {
+                Text(formattedCenterDate(selectedDate))
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .overlay(alignment: .bottom) {
+                        Rectangle()
+                            .frame(width: 30, height: 3)
+                            .offset(y:14)
+                            .foregroundStyle(.blue)
+                    }
+                
+            }
+            
+            Spacer()
             
             Spacer()
             
             Button(action: nextDate) {
                 Text(formattedDate(changeDate(by: 1, date: selectedDate)))
+                    .font(.caption)
+                // caption 사이즈 12
+                    .foregroundStyle(.black)
+                    .opacity(0.8)
             }
+            .frame(minWidth: 44, minHeight: 44)
+            
+            Spacer()
         }
-        .padding()
+        .padding(.horizontal)
     }
     
     private func changeDate(by days: Int, date: Date) -> Date {
@@ -47,7 +75,7 @@ struct DateNavigationView: View {
         dateFormatter.dateFormat = "E"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         let centerDate = dateFormatter.string(from: date)
-        return "오늘(\(centerDate))"
+        return "오늘 (\(centerDate))"
     }
 }
 

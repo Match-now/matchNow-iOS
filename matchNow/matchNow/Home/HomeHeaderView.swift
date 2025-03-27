@@ -23,16 +23,20 @@ struct HomeHeaderView: View {
             Button(action: profileTap) {
                 Image(systemName: "person.circle")
                     .resizable()
-                    .frame(width: 30, height: 30)
+                    .frame(width: 22, height: 22)
             }
+            .frame(minWidth: 44, minHeight: 44)
+
             
             Button(action: calendarTap) {
                 Image(systemName: "calendar")
                     .resizable()
-                    .frame(width: 30, height: 30)
+                    .frame(width: 22, height: 22)
             }
+            .frame(minWidth: 44, minHeight: 44)
+
         }
-        .padding()
+        .padding(.horizontal)
     }
 }
 
