@@ -14,6 +14,8 @@ enum HomeRoute {
 }
 
 struct HomeView: View {
+    @StateObject var viewModel = HomeViewModel()
+    
     @State private var path = NavigationPath()
     @State private var isCalendarPresented = false
     
@@ -28,6 +30,17 @@ struct HomeView: View {
                         isCalendarPresented.toggle()
                     }
                 )
+                
+                DateNavigationView(
+                    selectedDate: viewModel.selectedDate,
+                    prevDate: {
+                        viewModel.moveDate(by: -1)
+                    },
+                    nextDate: {
+                        viewModel.moveDate(by: 1)
+                    }
+                )
+                
                 Spacer()
                 
                 Button {
