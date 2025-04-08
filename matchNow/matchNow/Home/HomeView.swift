@@ -50,8 +50,12 @@ struct HomeView: View {
                         NoticeView(noticeTap: {
                             path.append(HomeRoute.noticeList)
                         }, notice: viewModel.noticeMessage)
-                        .padding(.top, 8)
-                        .padding(.horizontal, 4)
+                        
+                        CategoryView(selectedCategory: $viewModel.selectedCategory, selectCategory: { newCategory in
+                            viewModel.selectedCategory = newCategory
+                        })
+                        
+                        
                         Spacer()
                         
                         Button {
