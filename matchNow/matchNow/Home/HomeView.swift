@@ -11,6 +11,7 @@ enum HomeRoute {
     case profile
     case signUp
     case matchDetail
+    case noticeList
 }
 
 struct HomeView: View {
@@ -46,9 +47,11 @@ struct HomeView: View {
                     Color.gray
                         .opacity(0.1)
                     VStack {
-                        NoticeView(notice: viewModel.noticeMessage)
-                            .padding(.top, 8)
-                            .padding(.horizontal, 4)
+                        NoticeView(noticeTap: {
+                            path.append(HomeRoute.noticeList)
+                        }, notice: viewModel.noticeMessage)
+                        .padding(.top, 8)
+                        .padding(.horizontal, 4)
                         Spacer()
                         
                         Button {
@@ -79,6 +82,8 @@ struct HomeView: View {
                     SignUpView()
                 case .matchDetail:
                     MatchDetailView()
+                case .noticeList:
+                    NoticeListView()
                 }
             }
             .sheet(isPresented: $isCalendarPresented) {

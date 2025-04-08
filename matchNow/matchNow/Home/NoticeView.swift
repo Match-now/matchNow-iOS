@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NoticeView: View {
+    var noticeTap: () -> Void
+    
     var notice: String
     var body: some View {
         Rectangle()
@@ -20,11 +22,13 @@ struct NoticeView: View {
                     Image(systemName: "volume.1.fill")
                         .padding(.leading, 24)
                     
-                    Text(notice)
-                        .font(.subheadline)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                    
+                    Button(action: noticeTap) {
+                        Text(notice)
+                            .foregroundStyle(.black)
+                            .font(.subheadline)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                    }
                     Spacer()
                 }
             }
@@ -32,5 +36,5 @@ struct NoticeView: View {
 }
 
 #Preview {
-    NoticeView(notice: "바나나 투척, \"망할원숭이\"조롱...")
+    NoticeView(noticeTap: {}, notice: "바나나 투척, \"망할원숭이\"조롱...")
 }
