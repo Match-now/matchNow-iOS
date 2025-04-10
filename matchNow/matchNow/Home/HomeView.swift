@@ -70,6 +70,7 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal,4)
+                .scrollIndicators(.hidden)
             }
             .navigationDestination(for: HomeRoute.self) { route in
                 switch route {
