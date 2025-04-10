@@ -51,7 +51,7 @@ struct HomeView: View {
                             path.append(HomeRoute.noticeList)
                         }, notice: viewModel.noticeMessage)
                         
-                        CategoryView(selectedCategory: $viewModel.selectedCategory, selectCategory: { newCategory in
+                        CategoryView(selectedCategory: viewModel.selectedCategory, selectCategory: { newCategory in
                             viewModel.selectedCategory = newCategory
                         })
                         

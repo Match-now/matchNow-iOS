@@ -14,7 +14,7 @@ enum Categories {
 
 struct CategoryView: View {
     let categories = [Categories.All,Categories.Soccer]
-    @Binding var selectedCategory: Categories
+    let selectedCategory: Categories
     
     let selectCategory: (Categories) -> Void
     
@@ -54,5 +54,5 @@ struct CategoryView: View {
 }
 
 #Preview {
-    CategoryView(selectedCategory: .constant(Categories.All), selectCategory: {_ in })
+    CategoryView(selectedCategory: Categories.All, selectCategory: {_ in })
 }
