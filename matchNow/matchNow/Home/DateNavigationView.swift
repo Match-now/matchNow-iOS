@@ -12,13 +12,17 @@ struct DateNavigationView: View {
     let prevDate: () -> Void
     let nextDate: () -> Void
     
+    
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             Spacer()
             
             Button(action: prevDate) {
-                Text(formattedDate(changeDate(by: -1, date: selectedDate)))
+                let leftDate = changeDate(by: -1, date: selectedDate)
+                let isToday = Calendar.current.isDateInToday(leftDate)
+                Text(isToday ? formattedTodayDate(leftDate) : formattedDate(leftDate))
                     .font(.caption)
+                    .frame(width: 100, alignment: .center)
                     .foregroundStyle(.black)
                     .opacity(0.8)
             }
@@ -27,30 +31,30 @@ struct DateNavigationView: View {
             
             Spacer()
             
-            Spacer()
-            
             VStack {
-                Text(formattedCenterDate(selectedDate))
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .overlay(alignment: .bottom) {
-                        Rectangle()
-                            .frame(width: 30, height: 3)
-                            .offset(y:10)
-                        //HIG 맞춰야하면 버튼에 따라 알맞게 변환할것
-                            .foregroundStyle(.blue)
-                    }
-                
+                let isToday = Calendar.current.isDateInToday(selectedDate)
+                Text(isToday ? formattedTodayDate(selectedDate) : formattedDate(selectedDate))
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .frame(width: 120, alignment: .center)
+                        .overlay(alignment: .bottom) {
+                            Rectangle()
+                                .frame(width: 30, height: 3)
+                                .offset(y:10)
+                            //HIG 맞춰야하면 버튼에 따라 알맞게 변환할것
+                                .foregroundStyle(.blue)
+                        }
             }
             
             Spacer()
             
-            Spacer()
-            
             Button(action: nextDate) {
-                Text(formattedDate(changeDate(by: 1, date: selectedDate)))
+                let leftDate = changeDate(by: 1, date: selectedDate)
+                let isToday = Calendar.current.isDateInToday(leftDate)
+                Text(isToday ? formattedTodayDate(leftDate) : formattedDate(leftDate))
                     .font(.caption)
                 // caption 사이즈 12
+                    .frame(width: 100, alignment: .center)
                     .foregroundStyle(.black)
                     .opacity(0.8)
             }
@@ -73,7 +77,7 @@ struct DateNavigationView: View {
         return dateFormatter.string(from: date)
     }
     
-    private func formattedCenterDate(_ date: Date) -> String {
+    private func formattedTodayDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E"
         dateFormatter.locale = Locale(identifier: "ko_KR")

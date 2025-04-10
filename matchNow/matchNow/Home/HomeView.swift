@@ -33,6 +33,7 @@ struct HomeView: View {
                 )
                 .padding(.bottom, 16)
                 
+                
                 DateNavigationView(
                     selectedDate: viewModel.selectedDate,
                     prevDate: {

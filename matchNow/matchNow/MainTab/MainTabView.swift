@@ -12,22 +12,26 @@ struct MainTabView: View {
         TabView {
             HomeView()
                 .tabItem {
+                    Image(systemName: "tv.inset.filled")
                     Text("라이브")
                 }
             CommunityView()
                 .tabItem {
+                    Image(systemName: "newspaper.fill")
                     Text("커뮤니티")
                 }
-            NewsView()
-                .tabItem {
-                    Text("뉴스")
-                }
+//            NewsView()
+//                .tabItem {
+//                    Text("뉴스")
+//                }
             FollowView()
                 .tabItem {
+                    Image(systemName: "star.fill")
                     Text("관심경기")
                 }
             OtherView()
                 .tabItem {
+                    Image(systemName: "line.horizontal.3")
                     Text("더보기")
                 }
         }

@@ -38,12 +38,11 @@ class HomeViewModel: ObservableObject {
     // 선택된 카테고리
     @Published var selectedCategory: Categories = Categories.All
     // 서버로 부터 받아온 매치 리스트
-    @Published var matches: [Match] = [Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"]),
-                                       Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"]),
-                                       Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"]),
-                                       Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"]),
-                                       Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"]),
-                                       Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"])]
+    @Published var matches: [Match] = [
+    Match(id: 1, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "expected", statusMessage: "20:30", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "", awayScore: "", odds: ["5.06","4.20","1.55"]),
+    Match(id: 2, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "progress", statusMessage: "전반 12", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","11.55"]),
+    Match(id: 3, league: "EPL", noticeMessage: "맨체스터의 주인은 맨시티다..? 이거는 이제 반박 못 할 것 같은데요 맨유팬 여러분 인정 하시나요??", status: "end", statusMessage: "홈팀 패", homeTeamName: "맨유", homeTeamRank: "14위", awayTeamName: "맨시티", awayTeamRank: "5위", homeScore: "1", awayScore: "2", odds: ["5.06","4.20","1.55"])
+    ]
     
     func moveDate(by days: Int) {
         guard let newDate = Calendar.current.date(byAdding: .day, value: days, to: selectedDate) else { return }
