@@ -32,8 +32,6 @@ struct NoticeView: View {
                     Spacer()
                 }
             }
-            .padding(.top, 8)
-            .padding(.horizontal, 4)
     }
 }
 
