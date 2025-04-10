@@ -20,7 +20,7 @@ struct MatchRowView: View {
                         .font(.footnote)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 80)
-                        .padding(.top, 8)
+                        .padding(.top, 16)
                     
                     HStack {
                         Spacer()
@@ -81,10 +81,11 @@ struct MatchRowView: View {
                         Text(match.odds[2])
                     }
                     .font(.footnote)
+                    .padding(4)
                     
                     Rectangle()
-                        .frame(height: 1)
-                        .foregroundStyle(.gray.opacity(0.15))
+                        .frame(height: 2)
+                        .foregroundStyle(.gray.opacity(0.12))
                 }
             }
             .buttonStyle(.plain)
@@ -93,6 +94,7 @@ struct MatchRowView: View {
                 Image(systemName: "star.fill")
                     .foregroundStyle(.yellow)
                     .padding(.trailing, 16)
+                    .padding(.top, 8)
                 
             }
             .buttonStyle(.plain)
