@@ -72,18 +72,18 @@ struct HomeView: View {
                 .padding(.horizontal,4)
                 .scrollIndicators(.hidden)
             }
-            .navigationDestination(for: HomeRoute.self) { route in
-                switch route {
-                case .profile:
-                    ProfileView()
-                case .signUp:
-                    SignUpView()
-                case .matchDetail:
-                    MatchDetailView()
-                case .noticeList:
-                    NoticeListView()
-                }
-            }
+//            .navigationDestination(for: HomeRoute.self) { route in
+//                switch route {
+//                case .profile:
+//                    ProfileView()
+//                case .signUp:
+//                    SignUpView()
+//                case .matchDetail:
+//                    MatchDetailView()
+//                case .noticeList:
+//                    NoticeListView()
+//                }
+//            }
             .sheet(isPresented: $isCalendarPresented) {
                 CalendarView()
             }

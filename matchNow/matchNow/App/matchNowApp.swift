@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct matchNowApp: App {
+    @UIApplicationDelegateAdaptor(matchNowAppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
+    
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            pettiAppView(store: Store(initialState: matchNowAppReducer.State()) {
+                matchNowAppReducer()
+            })
         }
     }
 }

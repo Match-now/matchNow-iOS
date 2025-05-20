@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E04ED24D2DDCABE600AA1D13 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED24C2DDCABE600AA1D13 /* Alamofire */; };
+		E04ED24F2DDCABE600AA1D13 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED24E2DDCABE600AA1D13 /* AlamofireDynamic */; };
+		E04ED2522DDCABF200AA1D13 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED2512DDCABF200AA1D13 /* Kingfisher */; };
+		E04ED2552DDCAC1800AA1D13 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED2542DDCAC1800AA1D13 /* CombineMoya */; };
+		E04ED2572DDCAC1800AA1D13 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED2562DDCAC1800AA1D13 /* Moya */; };
+		E04ED25A2DDCAC3D00AA1D13 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED2592DDCAC3D00AA1D13 /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		92EC83482D665CC800ADF44B /* matchNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = matchNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +32,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E04ED2522DDCABF200AA1D13 /* Kingfisher in Frameworks */,
+				E04ED24D2DDCABE600AA1D13 /* Alamofire in Frameworks */,
+				E04ED25A2DDCAC3D00AA1D13 /* ComposableArchitecture in Frameworks */,
+				E04ED2552DDCAC1800AA1D13 /* CombineMoya in Frameworks */,
+				E04ED2572DDCAC1800AA1D13 /* Moya in Frameworks */,
+				E04ED24F2DDCABE600AA1D13 /* AlamofireDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +80,12 @@
 			);
 			name = matchNow;
 			packageProductDependencies = (
+				E04ED24C2DDCABE600AA1D13 /* Alamofire */,
+				E04ED24E2DDCABE600AA1D13 /* AlamofireDynamic */,
+				E04ED2512DDCABF200AA1D13 /* Kingfisher */,
+				E04ED2542DDCAC1800AA1D13 /* CombineMoya */,
+				E04ED2562DDCAC1800AA1D13 /* Moya */,
+				E04ED2592DDCAC3D00AA1D13 /* ComposableArchitecture */,
 			);
 			productName = livescore;
 			productReference = 92EC83482D665CC800ADF44B /* matchNow.app */;
@@ -94,6 +115,12 @@
 			);
 			mainGroup = 92EC833F2D665CC800ADF44B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E04ED24B2DDCABE600AA1D13 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E04ED2502DDCABF200AA1D13 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				E04ED2532DDCAC1800AA1D13 /* XCRemoteSwiftPackageReference "Moya" */,
+				E04ED2582DDCAC3D00AA1D13 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 92EC83492D665CC800ADF44B /* Products */;
 			projectDirPath = "";
@@ -252,6 +279,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"matchNow/Preview Content\"";
+				DEVELOPMENT_TEAM = RS7JFS2M68;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -280,6 +308,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"matchNow/Preview Content\"";
+				DEVELOPMENT_TEAM = RS7JFS2M68;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -322,6 +351,74 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E04ED24B2DDCABE600AA1D13 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		E04ED2502DDCABF200AA1D13 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
+		E04ED2532DDCAC1800AA1D13 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		E04ED2582DDCAC3D00AA1D13 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.19.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E04ED24C2DDCABE600AA1D13 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E04ED24B2DDCABE600AA1D13 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		E04ED24E2DDCABE600AA1D13 /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E04ED24B2DDCABE600AA1D13 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+		E04ED2512DDCABF200AA1D13 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E04ED2502DDCABF200AA1D13 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		E04ED2542DDCAC1800AA1D13 /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E04ED2532DDCAC1800AA1D13 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		E04ED2562DDCAC1800AA1D13 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E04ED2532DDCAC1800AA1D13 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		E04ED2592DDCAC3D00AA1D13 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E04ED2582DDCAC3D00AA1D13 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 92EC83402D665CC800ADF44B /* Project object */;
 }
