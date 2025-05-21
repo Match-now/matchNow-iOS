@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+/// 네트워크 요청 모델
+public struct LSRequest {
+    
+}
