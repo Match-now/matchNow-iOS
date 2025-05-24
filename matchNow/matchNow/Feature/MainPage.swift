@@ -16,7 +16,7 @@ struct MainReducer {
         var title: String {
             switch self {
             case .live:
-                return "홈"
+                return "라이브"
             case .community:
                 return "커뮤니티"
             case .news:
@@ -200,11 +200,11 @@ struct MainPage: View {
                                     Image(store.selectedTab == menu ? menu.imageOn : menu.imageOff)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 20)
+                                        .frame(height: 20)
                                     
                                     Text(menu.title)
-                                        .font(.system(size: 12, weight: .medium, design: .default))
-                                        .foregroundColor(store.selectedTab == menu ? Color.blue : Color.gray)
+                                        .font(.system(size: 15, weight: .regular))
+                                        .foregroundColor(store.selectedTab == menu ? Color.mainTabOn : Color.mainTabOff)
                                 }
                                 .frame(width: geometry.size.width / tabCount)
                                 .padding(EdgeInsets(top: 15, leading: 0, bottom: 5, trailing: 0))
