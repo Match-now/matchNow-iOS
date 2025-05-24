@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+enum EntryPoint {
+    case live
+    case community
+    case news
+    case interestGame
+    case moreMenu
+    case empty
+}

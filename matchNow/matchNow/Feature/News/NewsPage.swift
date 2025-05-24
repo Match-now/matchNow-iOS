@@ -1,15 +1,15 @@
 //
-//  MoreMenuPage.swift
+//  NewsPage.swift
 //  matchNow
 //
-//  Created by kimhongpil on 5/22/25.
+//  Created by kimhongpil on 5/24/25.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
 @Reducer
-struct MoreMenuReducer {
+struct NewsReducer {
     @ObservableState
     struct State: Equatable {
         static let initialState = State()
@@ -50,7 +50,7 @@ struct MoreMenuReducer {
         }
     }
     
-    func viewActionControl(state: inout State, action: MoreMenuReducer.Action.ViewAction) -> Effect<Action> {
+    func viewActionControl(state: inout State, action: NewsReducer.Action.ViewAction) -> Effect<Action> {
         switch action {
         case .onLoad:
             return .none
@@ -66,7 +66,7 @@ struct MoreMenuReducer {
         }
     }
     
-    func internalActionControl(state: inout State, action: MoreMenuReducer.Action.InternalAction) -> Effect<Action> {
+    func internalActionControl(state: inout State, action: NewsReducer.Action.InternalAction) -> Effect<Action> {
         switch action {
         case .requestCommunityList:
             state.isLoading = true
@@ -78,21 +78,21 @@ struct MoreMenuReducer {
     }
 }
 
-struct MoreMenuPage: View {
-    let store: StoreOf<MoreMenuReducer>
+struct NewsPage: View {
+    let store: StoreOf<NewsReducer>
     
     var body: some View {
         VStack {
-            Text("MoreMenu Page !")
+            Text("News Page !")
         }
         .frame(maxHeight: .infinity)
     }
 }
 
 #Preview {
-    MoreMenuPage(
-        store: Store(initialState: MoreMenuReducer.State()) {
-            MoreMenuReducer()
+    NewsPage(
+        store: Store(initialState: NewsReducer.State()) {
+            NewsReducer()
         }
     )
 }

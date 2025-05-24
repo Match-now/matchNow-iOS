@@ -9,7 +9,7 @@ import UIKit
 import ComposableArchitecture
 
 @Reducer
-public struct matchNowAppDelegate {
+public struct matchNowAppDelegateReducer {
     @ObservableState
     public struct State: Equatable {
         public init() {}
@@ -23,18 +23,15 @@ public struct matchNowAppDelegate {
         Reduce { state, action in
             switch action {
             case .didFinishLaunching(launchOptions: _):
-                print("===== appdelegate: didfinish")
                 return .none
             }
         }
     }
 }
 
-class pettiAppDelegate: NSObject, UIApplicationDelegate {
-    let store = Store(initialState: pettiAppReducer.State()) {
-        pettiAppReducer().transformDependency(\.self) { dependency in
+class matchNowAppDelegate: NSObject, UIApplicationDelegate {
+    let store = Store(initialState: matchNowAppReducer.State()) {
+        matchNowAppReducer().transformDependency(\.self) { dependency in
         }
     }
-    
-    
 }

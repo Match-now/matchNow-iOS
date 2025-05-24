@@ -1,19 +1,19 @@
 //
-//  UserRouter.swift
+//  InterestGameRouter.swift
 //  matchNow
 //
-//  Created by kimhongpil on 5/21/25.
+//  Created by kimhongpil on 5/24/25.
 //
 
 import Foundation
 import Alamofire
 
-enum UserRouter {
+enum InterestGameRouter {
     case psynetBanner([String:Any])
     case ticerNoticeDetail([String: Any])
 }
 
-extension UserRouter: APIConvertible {
+extension InterestGameRouter: APIConvertible {
     var baseURL: URL {
         return URL(string: "\(Constants.Server.Environment.backEndURL)")!
     }

@@ -33,8 +33,6 @@ struct CommunityReducer {
         }
     }
     
-    @Dependency(\.apiClient) var apiClient
-    
     var body: some Reducer<State, Action> {
         mainBuilder
     }

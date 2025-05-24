@@ -15,9 +15,12 @@ struct matchNowApp: App {
     
     var body: some Scene {
         WindowGroup {
-            pettiAppView(store: Store(initialState: matchNowAppReducer.State()) {
+            matchNowAppView(store: Store(initialState: matchNowAppReducer.State()) {
                 matchNowAppReducer()
             })
+        }
+        .onChange(of: self.scenePhase) {
+            self.appDelegate.store.send(.didChangeScenePhase(self.scenePhase))
         }
     }
 }

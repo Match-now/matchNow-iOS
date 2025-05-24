@@ -47,13 +47,7 @@ final class ApiDataRequest {
 extension ApiDataRequest {
     func defaultParam() -> [String:Any] {
         var param = [String: Any]()
-        param[appVerKey] = Constants.SysInfo.appVersion.urlEncodedString()
-        param[nationalKey] = AppState.shared.countryCode.uppercased()
-        param[languageKey] = AppState.shared.languageCode.lowercased()
-        param[modelKey] = Constants.SysInfo.modelName
-        param[ntKey] = Constants.SysInfo.carrierName
         param["ph"] = ""
-        param[gmtKey] = Utils.shared.getGmtTime(Date())
         
         return param
     }

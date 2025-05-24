@@ -24,20 +24,26 @@ public protocol APIConvertible: URLRequestConvertible {
 
 enum ApiRouter {
     case user(UserRouter)
-    case home(HomeRouter)
-    case match(MatchRouter)
-    case mypage(MyPageRouter)
+    case live(LiveRouter)
+    case community(CommunityRouter)
+    case news(NewsRouter)
+    case interestGame(InterestGameRouter)
+    case moreMenu(MoreMenuRouter)
 }
 extension ApiRouter: APIConvertible {
     var baseURL: URL {
         switch self {
         case .user(let router):
             return router.baseURL
-        case .home(let router):
+        case .live(let router):
             return router.baseURL
-        case .match(let router):
+        case .community(let router):
             return router.baseURL
-        case .mypage(let router):
+        case .news(let router):
+            return router.baseURL
+        case .interestGame(let router):
+            return router.baseURL
+        case .moreMenu(let router):
             return router.baseURL
         }
     }
@@ -45,11 +51,15 @@ extension ApiRouter: APIConvertible {
         switch self {
         case .user(let router):
             return router.path
-        case .home(let router):
+        case .live(let router):
             return router.path
-        case .match(let router):
+        case .community(let router):
             return router.path
-        case .mypage(let router):
+        case .news(let router):
+            return router.path
+        case .interestGame(let router):
+            return router.path
+        case .moreMenu(let router):
             return router.path
         }
     }
@@ -57,11 +67,15 @@ extension ApiRouter: APIConvertible {
         switch self {
         case .user(let router):
             return router.method
-        case .home(let router):
+        case .live(let router):
             return router.method
-        case .match(let router):
+        case .community(let router):
             return router.method
-        case .mypage(let router):
+        case .news(let router):
+            return router.method
+        case .interestGame(let router):
+            return router.method
+        case .moreMenu(let router):
             return router.method
         }
     }
@@ -69,11 +83,15 @@ extension ApiRouter: APIConvertible {
         switch self {
         case .user(let router):
             return router.parameters
-        case .home(let router):
+        case .live(let router):
             return router.parameters
-        case .match(let router):
+        case .community(let router):
             return router.parameters
-        case .mypage(let router):
+        case .news(let router):
+            return router.parameters
+        case .interestGame(let router):
+            return router.parameters
+        case .moreMenu(let router):
             return router.parameters
         }
     }
@@ -81,11 +99,15 @@ extension ApiRouter: APIConvertible {
         switch self {
         case .user(let router):
             return router.header
-        case .home(let router):
+        case .live(let router):
             return router.header
-        case .match(let router):
+        case .community(let router):
             return router.header
-        case .mypage(let router):
+        case .news(let router):
+            return router.header
+        case .interestGame(let router):
+            return router.header
+        case .moreMenu(let router):
             return router.header
         }
     }
@@ -94,11 +116,15 @@ extension ApiRouter: APIConvertible {
         switch self {
         case .user(let router):
             return router.multipartFormData
-        case .home(let router):
+        case .live(let router):
             return router.multipartFormData
-        case .match(let router):
+        case .community(let router):
             return router.multipartFormData
-        case .mypage(let router):
+        case .news(let router):
+            return router.multipartFormData
+        case .interestGame(let router):
+            return router.multipartFormData
+        case .moreMenu(let router):
             return router.multipartFormData
         }
     }
@@ -107,11 +133,15 @@ extension ApiRouter: APIConvertible {
         switch self {
         case .user(let router):
             return try router.asURLRequest()
-        case .home(let router):
+        case .live(let router):
             return try router.asURLRequest()
-        case .match(let router):
+        case .community(let router):
             return try router.asURLRequest()
-        case .mypage(let router):
+        case .news(let router):
+            return try router.asURLRequest()
+        case .interestGame(let router):
+            return try router.asURLRequest()
+        case .moreMenu(let router):
             return try router.asURLRequest()
         }
     }
