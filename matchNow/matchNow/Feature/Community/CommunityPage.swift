@@ -33,6 +33,8 @@ struct CommunityReducer {
         }
     }
     
+    @Dependency(\.apiClient) var apiClient
+    
     var body: some Reducer<State, Action> {
         mainBuilder
     }
@@ -69,6 +71,13 @@ struct CommunityReducer {
         case .requestCommunityList:
             state.isLoading = true
             return .none
+//            return .run { send in
+//                let response = try await apiClient.apiRequest(.community(.psynetBanner()))
+//                
+//                await send(.inter(.responseCommunityList(
+//                try await a
+//                )))
+//            }
         case .responseCommunityList(let result):
             state.isLoading = false
             return .none
@@ -82,6 +91,9 @@ struct CommunityPage: View {
     var body: some View {
         VStack {
             Text("Community Page !")
+        }
+        .onAppear {
+            store.send(.inter(.requestCommunityList))
         }
         .frame(maxHeight: .infinity)
     }

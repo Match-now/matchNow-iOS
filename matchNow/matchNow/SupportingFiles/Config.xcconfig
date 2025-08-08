@@ -1,0 +1,12 @@
+//
+//  Config.xcconfig
+//  matchNow
+//
+//  Created by kimhongpil on 8/2/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// 환경변수 설정
+KAKAO_NATIVE_APP_KEY=184f80816000a867b2e25174b0a642a5

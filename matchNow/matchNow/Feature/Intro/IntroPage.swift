@@ -45,7 +45,6 @@ struct IntroReducer {
             switch action {
             case .view(.onAppear):
                 return .send(.introProcessFinished)
-                    
             default:
                 return .none
             }
@@ -55,13 +54,23 @@ struct IntroReducer {
 
 struct IntroPage: View {
     let store: StoreOf<IntroReducer>
+    @Environment(\.colorScheme) var scheme  // 다크모드
     
     var body: some View {
-        VStack {
-            Text("Intro Page !")
+        ZStack {
+            Color.darkModeColor(scheme: scheme)
+            
+            Image("login_logo")
+                .renderingMode(.template)
+                .resizable()
+                .foregroundColor(scheme == .light ? Color.init(hex: "1C67FF") : Color.white)
+                .scaledToFit().frame(height: 31)
         }
+        .ignoresSafeArea()
         .onAppear {
-            store.send(.view(.onAppear))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                store.send(.view(.onAppear))
+            }
         }
         .frame(maxHeight: .infinity)
     }

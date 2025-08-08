@@ -14,6 +14,7 @@ struct MainNaviReducer {
     struct State: Equatable, Identifiable {
         var id = UUID()
         var mainPage: MainReducer.State
+        @Presents var memNavi: MemberNaviReducer.State?
         
         init() {
             self.mainPage = MainReducer.State.initialState
@@ -22,8 +23,11 @@ struct MainNaviReducer {
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case mainPage(MainReducer.Action)
+        case onLoad
         case task
+        case mainPage(MainReducer.Action)
+        case startMemberCheck
+        case memNavi(PresentationAction<MemberNaviReducer.Action>)
     }
     
     var body: some Reducer<State, Action> {
@@ -42,11 +46,43 @@ struct MainNaviReducer {
             switch action {
             case .binding:
                 return .none
-            case .task:
+            case .onLoad:
                 return .none
+            case .task:
+                return .run { send in
+                    await send(.startMemberCheck)
+                }
+            case .startMemberCheck:
+                if NaviRouter.shared.isMemberNaviPresent {
+                    return .none
+                }
+                NaviRouter.shared.isMemberNaviPresent = true
+                state.memNavi = MemberNaviReducer.State()
+                return .none
+            case .memNavi(let memNaviAction):
+                return memberNaviActionController(state: &state, action: memNaviAction)
             default:
                 return .none
             }
+        }
+        .ifLet(\.$memNavi, action: \.memNavi) {
+            MemberNaviReducer()
+        }
+    }
+    
+    func memberNaviActionController(state: inout State, action: PresentationAction<MemberNaviReducer.Action>) -> Effect<Action> {
+        switch action {
+        case .presented(.dismissProcess):
+            state.memNavi = nil
+            NaviRouter.shared.isMemberNaviPresent = false
+            print("==== memscreen dismiss")
+            //usersClient.sendEvent(.didCompleteMemberProcess(result: userSettings.memberType))
+            return .none
+        case .dismiss:
+            state.memNavi = nil
+            return .none
+        default:
+            return .none
         }
     }
 }
@@ -56,7 +92,7 @@ struct MainNaviView: View {
     @StateObject private var router = NaviRouter.shared
     
     var body: some View {
-        NavigationStack(path: $router.tmpScreens) {
+        NavigationStack(path: $router.mainPath) {
             MainPage(store: self.store.scope(state: \.mainPage, action: \.mainPage))
                 .navigationDestination(for: StackScreen.self) { stackScreen in
                     switch stackScreen.screen {
@@ -69,6 +105,19 @@ struct MainNaviView: View {
                         }
                     }
                 }
+        }
+        .fullScreenCover(store: self.store.scope(state: \.$memNavi, action: \.memNavi)) { store in
+            MemberNaviView(store: store)
+                .transaction { t in
+                    t.disablesAnimations = true
+                }
+        }
+        .onLoad {
+            print("==== MainNaviView onLoad ====")
+            store.send(.onLoad)
+        }
+        .task {
+            await store.send(.task).finish()
         }
     }
 }

@@ -12,42 +12,51 @@ import ComposableArchitecture
 public class NaviRouter: ObservableObject {
     static var shared = NaviRouter()
     var cancelBag = Set<AnyCancellable>()
-    @Published var mainNavi = NavigationPath()
-    
-    var tmpScreens: [Screen] = []
+    var isMemberNaviPresent = false //이용약관 termview 회원가입할때 membernavi, mainnavi 둘다 푸쉬 될수 있음
+    @Published var memberPath: [StackScreen] = []
+    @Published var mainPath: [StackScreen] = []
     
     init() {
+        
     }
+    
     func push(_ screen: Screen) {
         DispatchQueue.main.async {
-            self.mainNavi.append(screen)
-            self.tmpScreens.append(screen)
+            self.mainPath.append(StackScreen(screen: screen))
             AppState.shared.topScreen = screen
         }
     }
     
     func popRoot() {
         DispatchQueue.main.async {
-            self.mainNavi = NavigationPath()
-            self.tmpScreens = []
-            AppState.shared.topScreen = nil
+            self.mainPath = []
         }
     }
     
     func pop(_ index: Int = 1) {
         DispatchQueue.main.async {
-            if self.mainNavi.count >= index {
-                self.mainNavi.removeLast(index)
+            if self.mainPath.count >= index {
+                self.mainPath.removeLast(index)
             } else {
-                self.mainNavi = NavigationPath()
+                self.mainPath = []
             }
-            
-            if self.tmpScreens.count >= index {
-                self.tmpScreens.removeLast(index)
-            } else {
-                self.tmpScreens.removeAll()
-            }
-            AppState.shared.topScreen = self.tmpScreens.last
+        }
+    }
+    
+    //회원가입 네비
+    func memberPush(_ screen: Screen) {
+        self.memberPath.append(StackScreen(screen: screen))
+    }
+    
+    func memberPopRoot() {
+        self.memberPath = []//NavigationPath()
+    }
+    
+    func memberPop(_ index: Int = 1) {
+        if self.memberPath.count >= index {
+            self.memberPath.removeLast(index)
+        } else {
+            self.memberPath = [] //NavigationPath()
         }
     }
 }
