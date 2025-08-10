@@ -16,11 +16,17 @@
 		E04ED2552DDCAC1800AA1D13 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED2542DDCAC1800AA1D13 /* CombineMoya */; };
 		E04ED2572DDCAC1800AA1D13 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E04ED2562DDCAC1800AA1D13 /* Moya */; };
 		E05BDF422DE1DB390059DB7D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E05BDF412DE1DB390059DB7D /* Alamofire */; };
+		E0CA99EC2E488A5600E29711 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E0CA99EB2E488A5600E29711 /* FirebaseAuth */; };
+		E0CA99EE2E488A5600E29711 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E0CA99ED2E488A5600E29711 /* FirebaseAuthCombine-Community */; };
+		E0CA99F02E488B6500E29711 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0CA99EF2E488B6500E29711 /* GoogleService-Info.plist */; };
+		E0CA99F32E488C2000E29711 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = E0CA99F22E488C2000E29711 /* GoogleSignIn */; };
+		E0CA99F52E488C2000E29711 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E0CA99F42E488C2000E29711 /* GoogleSignInSwift */; };
 		E0D343332E40F77E007D5FD2 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = E0D343322E40F77E007D5FD2 /* Popovers */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		92EC83482D665CC800ADF44B /* matchNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = matchNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0CA99EF2E488B6500E29711 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -52,10 +58,14 @@
 				E04646662E3DE20F00A73F18 /* KakaoSDKCommon in Frameworks */,
 				E04646642E3DE20F00A73F18 /* KakaoSDKAuth in Frameworks */,
 				E04646552E3DBB2300A73F18 /* ComposableArchitecture in Frameworks */,
+				E0CA99F32E488C2000E29711 /* GoogleSignIn in Frameworks */,
 				E05BDF422DE1DB390059DB7D /* Alamofire in Frameworks */,
 				E04ED2522DDCABF200AA1D13 /* Kingfisher in Frameworks */,
 				E04ED2552DDCAC1800AA1D13 /* CombineMoya in Frameworks */,
 				E0D343332E40F77E007D5FD2 /* Popovers in Frameworks */,
+				E0CA99EE2E488A5600E29711 /* FirebaseAuthCombine-Community in Frameworks */,
+				E0CA99F52E488C2000E29711 /* GoogleSignInSwift in Frameworks */,
+				E0CA99EC2E488A5600E29711 /* FirebaseAuth in Frameworks */,
 				E04ED2572DDCAC1800AA1D13 /* Moya in Frameworks */,
 				E04646622E3DE20F00A73F18 /* KakaoSDK in Frameworks */,
 				E04646682E3DE20F00A73F18 /* KakaoSDKUser in Frameworks */,
@@ -70,6 +80,7 @@
 			children = (
 				92EC834A2D665CC800ADF44B /* matchNow */,
 				92EC83492D665CC800ADF44B /* Products */,
+				E0CA99EF2E488B6500E29711 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +122,10 @@
 				E04646652E3DE20F00A73F18 /* KakaoSDKCommon */,
 				E04646672E3DE20F00A73F18 /* KakaoSDKUser */,
 				E0D343322E40F77E007D5FD2 /* Popovers */,
+				E0CA99EB2E488A5600E29711 /* FirebaseAuth */,
+				E0CA99ED2E488A5600E29711 /* FirebaseAuthCombine-Community */,
+				E0CA99F22E488C2000E29711 /* GoogleSignIn */,
+				E0CA99F42E488C2000E29711 /* GoogleSignInSwift */,
 			);
 			productName = livescore;
 			productReference = 92EC83482D665CC800ADF44B /* matchNow.app */;
@@ -147,6 +162,8 @@
 				E04646532E3DBB2300A73F18 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				E04646602E3DE20F00A73F18 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				E0D343312E40F77E007D5FD2 /* XCRemoteSwiftPackageReference "Popovers" */,
+				E0CA99EA2E488A5600E29711 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E0CA99F12E488C2000E29711 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 92EC83492D665CC800ADF44B /* Products */;
@@ -163,6 +180,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0CA99F02E488B6500E29711 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +448,22 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		E0CA99EA2E488A5600E29711 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.1.0;
+			};
+		};
+		E0CA99F12E488C2000E29711 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		E0D343312E40F77E007D5FD2 /* XCRemoteSwiftPackageReference "Popovers" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aheze/Popovers.git";
@@ -485,6 +519,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E05BDF402DE1DB390059DB7D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		E0CA99EB2E488A5600E29711 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CA99EA2E488A5600E29711 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E0CA99ED2E488A5600E29711 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CA99EA2E488A5600E29711 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		E0CA99F22E488C2000E29711 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CA99F12E488C2000E29711 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		E0CA99F42E488C2000E29711 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CA99F12E488C2000E29711 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		E0D343322E40F77E007D5FD2 /* Popovers */ = {
 			isa = XCSwiftPackageProductDependency;

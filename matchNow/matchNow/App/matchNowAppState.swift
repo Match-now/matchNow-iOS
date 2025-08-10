@@ -49,14 +49,16 @@ public class NaviRouter: ObservableObject {
     }
     
     func memberPopRoot() {
-        self.memberPath = []//NavigationPath()
+        //self.memberPath = []//NavigationPath()
+        self.memberPath.removeAll()
     }
     
     func memberPop(_ index: Int = 1) {
         if self.memberPath.count >= index {
             self.memberPath.removeLast(index)
         } else {
-            self.memberPath = [] //NavigationPath()
+            //self.memberPath = [] //NavigationPath()
+            self.memberPath.removeAll()
         }
     }
 }

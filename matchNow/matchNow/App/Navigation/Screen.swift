@@ -12,6 +12,11 @@ typealias Dest = Destination
 
 enum Screen: Hashable, Identifiable, Equatable {
     
+    case memLogin
+    
+    // 메인 네비게이션 화면
+    case memberNavi
+    
     //회원가입
     case memReAuth
     case memRegist
@@ -33,6 +38,8 @@ enum Screen: Hashable, Identifiable, Equatable {
     // Hashable 프로토콜 준수를 위한 함수
     func hash(into hasher: inout Hasher) {
         switch self {
+        case .memLogin: hasher.combine("memLogin")
+        case .memberNavi: hasher.combine("memberNavi")
         case .memReAuth:  hasher.combine("memReAuth")
         case .memRegist:  hasher.combine("memRegist")
         case .memRestore:  hasher.combine("memRestore")
@@ -59,6 +66,14 @@ struct StackScreen: Hashable, Equatable, Identifiable {
         self.screen = screen
         
         switch screen {
+        case .memLogin:
+            self.store = Store(initialState: LoginReducer.State(), reducer: {
+                LoginReducer()
+            })
+        case .memberNavi:
+            self.store = Store(initialState: MemberNaviReducer.State(), reducer: {
+                MemberNaviReducer()
+            })
             //회원가입
         case .memReAuth:
 //            self.store =  Store(initialState: MemberReAuthReducer.State(), reducer: {

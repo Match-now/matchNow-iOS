@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum LoginUserType: String {
-    case Google, Apple, KakaoTalk, Phone
-}
+//enum LoginUserType: String {
+//    case Google, Apple, KakaoTalk, Phone
+//}
 
 enum PushType: String {
     case Like, TodayLetter
@@ -49,12 +49,12 @@ enum bTab {
 //    case settings
 }
 
-enum LoadingStatus {
-    case Close
-    case ShowWithTouchable
-    case ShowWithUntouchable
-    case ShowWithUntouchableUnlimited       //터치불가능하고, 자동 close가 안되는.
-}
+//enum LoadingStatus {
+//    case Close
+//    case ShowWithTouchable
+//    case ShowWithUntouchable
+//    case ShowWithUntouchableUnlimited       //터치불가능하고, 자동 close가 안되는.
+//}
 
 enum ServiceType: String {
     case dev
@@ -73,9 +73,9 @@ enum AuthErrorType {
     case None
 }
 
-enum LoginType: String {
-    case google, facebook, kakao, apple, twitter, line, email
-}
+//enum LoginType: String {
+//    case google, facebook, kakao, apple, twitter, line, email
+//}
 
 enum SaveLoginType: String {
     case Google, Facebook, Kakao, Apple, Twitter, Line, email

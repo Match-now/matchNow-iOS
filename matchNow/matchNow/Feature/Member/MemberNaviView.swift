@@ -22,6 +22,7 @@ struct MemberNaviReducer {
         enum ViewAction {
             case onLoad
             case closeWithCancel
+            case backButtonTapped // 뒤로가기 버튼 액션 추가
         }
         case view(ViewAction)
         case dismissProcess
@@ -66,9 +67,17 @@ struct MemberNaviReducer {
             print("======= mem rootview")
             
             //return .send(.dest(.moveReAuth))
-            return .send(.dest(.moveRegist))
+            //return .send(.dest(.moveRegist))
+            
+            // 약간의 지연을 두고 regist로 이동
+            return .run { send in
+                try await Task.sleep(nanoseconds: 50_000_000) // 0.05초 지연
+                await send(.dest(.moveRegist))
+            }
         case .closeWithCancel:
             return .send(.dismissProcess)
+        case .backButtonTapped:
+                    return .send(.dismissProcess)
         }
     }
     
@@ -134,7 +143,41 @@ struct MemberNaviView: View {
                 //Color.black.ignoresSafeArea()
                 
                 VStack {
-                    //Divider().background(Color.black)
+                    Divider().background(Color.black)
+                    
+                    
+                    // 커스텀 네비게이션 바 추가
+                    HStack {
+                        Button(action: {
+                            vs.send(.view(.backButtonTapped))
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.black)
+                                .font(.title2)
+                        }
+                        .padding(.leading, 16)
+                        
+                        Spacer()
+                        
+                        Text("회원가입")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                        
+                        Spacer()
+                        
+                        // 오른쪽 여백을 위한 투명 버튼
+                        Button(action: {}) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.clear)
+                                .font(.title2)
+                        }
+                        .padding(.trailing, 16)
+                    }
+                    .frame(height: 44)
+                    .background(Color.white)
+                    
+                    
+                    
                     
                     NavigationStack(path: $router.memberPath) {
                         Color.white
@@ -178,6 +221,7 @@ struct MemberNaviView: View {
             }
         }
         .background(ClearBackground())
+        .navigationBarHidden(true) // 기본 네비게이션 바 숨김
         .onChange(of: router.memberPath) {
             if router.memberPath.count == 0 { //멤버 네비 모두 팝되는지 감지
                 vs.send(.dismissProcess, transaction: .noAnimationTransaction)

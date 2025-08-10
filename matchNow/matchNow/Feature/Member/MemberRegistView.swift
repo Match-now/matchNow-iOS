@@ -38,7 +38,7 @@ struct MemberRegistReducer {
     var body: some ReducerOf<Self> {
         BindingReducer()
         
-        Scope(state: \.aniBtnState, action: /Action.aniBtnAction) {
+        Scope(state: \.aniBtnState, action: \.aniBtnAction) {
             NickNameCheckAniReducer()
         }
         
@@ -47,7 +47,8 @@ struct MemberRegistReducer {
             case .onAppear:
                 return .none
             case .onBackButtonTaped:
-                NaviRouter.shared.memberPop()
+                //NaviRouter.shared.memberPop()
+                NaviRouter.shared.popRoot()
                 return .none
             case .editingNickName(let value):
                 state.inputNickName = value
@@ -136,6 +137,44 @@ struct MemberRegistView: View {
 //                }
 //            }
             
+            // 커스텀 네비게이션 바
+            HStack {
+                Button(action: {
+                    store.send(.onBackButtonTaped)
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.black)
+                            .font(.title2)
+                        Text("뒤로")
+                            .foregroundColor(.black)
+                            .font(.body)
+                    }
+                }
+                .padding(.leading, 16)
+                
+                Spacer()
+                
+                Text("회원가입")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                
+                Spacer()
+                
+                // 오른쪽 여백을 위한 투명 영역
+                HStack(spacing: 4) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.clear)
+                        .font(.title2)
+                    Text("뒤로")
+                        .foregroundColor(.clear)
+                        .font(.body)
+                }
+                .padding(.trailing, 16)
+            }
+            .frame(height: 44)
+            .background(Color.white)
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Nickname", comment: "대화명")
@@ -167,7 +206,7 @@ struct MemberRegistView: View {
                         NickNameCheckAniView(
                             store: self.store.scope(
                                 state: \.aniBtnState,
-                                action: MemberRegistReducer.Action.aniBtnAction
+                                action: \.aniBtnAction
                             )
                         )
                         
@@ -178,44 +217,17 @@ struct MemberRegistView: View {
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
-        .navigationBarHidden(true)
-//        .overlay {
-//            if store.isShowLiveScoreAccountCreate {
-//                LiveScoreAccountCreateView { action in
-//                    store.send(.closeAlert)
-//                    switch action {
-//                    case .createAccount:
-//                        store.send(.moveCreateAccount)
-//                    case .skip:
+        //.navigationBarHidden(true)
+        //.navigationBarHidden(true)
+//        .gesture(
+//            // swipe back 제스처 추가
+//            DragGesture()
+//                .onEnded { value in
+//                    if value.translation.width > 100 && abs(value.translation.height) < 50 {
 //                        store.send(.onBackButtonTaped)
 //                    }
 //                }
-//            }
-//            else if store.isShowTermsWithJoinCompletion {
-//                ZStack {
-//                    Color.primary100.opacity(0.5).ignoresSafeArea()
-//
-//                    MemberRegistTermWithCompltionView(terms: store.terms) { action in
-//                        switch action {
-//                        case .showTerm(let term):
-//                            store.send(.moveTerm(term))
-//                            break
-//                        case .joinCompletion:
-//                            print("join compltion")
-//                            store.send(.showTermsWithJoinCompletionToggle)
-//                            store.send(.memberRegistRequest)    //회원가입 요청
-//                            break
-//                        }
-//                    }
-//                    .padding(16)
-//                }
-//            }
-//
-//            if store.isLoading {
-//                CustomProgressView()
-//            }
-//
-//        }
+//        )
         .onAppear {
             store.send(.onAppear)
         }
