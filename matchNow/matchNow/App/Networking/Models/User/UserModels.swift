@@ -84,3 +84,56 @@ struct TokenData: Codable {
     let accessToken: String
     let refreshToken: String
 }
+
+struct UserProfileResponse: Codable, Equatable {
+    let success: Bool
+    let data: UserProfile
+    let message: String
+}
+
+struct UserProfile: Codable, Equatable {
+    let id: Int
+    let socialId: String
+    let provider: String
+    let email: String?
+    let name: String
+    let nickname: String?
+    let profileImageUrl: String?
+    let birthDate: String?
+    let gender: String?
+    let phoneNumber: String?
+    let status: String
+    let preferredLanguage: String?
+    let timezone: String?
+    let marketingConsent: Bool?
+    let pushNotificationEnabled: Bool?
+    let settings: [String: String]?
+    let createdAt: String
+    let updatedAt: String
+    let lastLoginAt: String?
+    let lastLoginIp: String?
+    
+    // Equatable 구현 (settings 딕셔너리 비교를 위해)
+    static func == (lhs: UserProfile, rhs: UserProfile) -> Bool {
+        return lhs.id == rhs.id &&
+               lhs.socialId == rhs.socialId &&
+               lhs.provider == rhs.provider &&
+               lhs.email == rhs.email &&
+               lhs.name == rhs.name &&
+               lhs.nickname == rhs.nickname &&
+               lhs.profileImageUrl == rhs.profileImageUrl &&
+               lhs.birthDate == rhs.birthDate &&
+               lhs.gender == rhs.gender &&
+               lhs.phoneNumber == rhs.phoneNumber &&
+               lhs.status == rhs.status &&
+               lhs.preferredLanguage == rhs.preferredLanguage &&
+               lhs.timezone == rhs.timezone &&
+               lhs.marketingConsent == rhs.marketingConsent &&
+               lhs.pushNotificationEnabled == rhs.pushNotificationEnabled &&
+               lhs.settings == rhs.settings &&
+               lhs.createdAt == rhs.createdAt &&
+               lhs.updatedAt == rhs.updatedAt &&
+               lhs.lastLoginAt == rhs.lastLoginAt &&
+               lhs.lastLoginIp == rhs.lastLoginIp
+    }
+}

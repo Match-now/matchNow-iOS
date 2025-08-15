@@ -70,17 +70,18 @@ struct CommunityReducer {
         switch action {
         case .requestCommunityList:
             state.isLoading = true
-            return .none
-//            return .run { send in
-//                let response = try await apiClient.apiRequest(.community(.psynetBanner()))
-//                
-//                await send(.inter(.responseCommunityList(
-//                try await a
-//                )))
-//            }
+            return .run { send in
+                let response = try await apiClient.apiRequest(.community(.psynetBanner(["user_no": "hongpil"])), as: CommunityPageResponse.self)
+                await send(.inter(.responseCommunityList(response)))
+            }
         case .responseCommunityList(let result):
             state.isLoading = false
-            return .none
+            switch result {
+            case .success(let result):
+                return .none
+            case .failure(_):
+                return .none
+            }
         }
     }
 }

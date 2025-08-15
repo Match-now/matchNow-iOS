@@ -54,7 +54,6 @@ struct LoginReducer {
         // Responses
         case kakaoLoginResponse(Result<String, Error>)
         case googleLoginResponse(Result<String, Error>)
-        // 🆕 서버 로그인 응답 추가
         case serverLoginResponse(Result<SocialLoginResponse, Error>)
         
         // Alert
@@ -114,13 +113,12 @@ struct LoginReducer {
             case .kakaoLoginResponse(let result):
                 switch result {
                 case .success(let socialId):
-                    // 🔧 수정: SNS 로그인 성공 후 서버 로그인 호출
                     state.authSuccessedLoginId = socialId
                     state.authSuccessedLoginType = .KakaoTalk
                     
                     // TODO: 실제 카카오 SDK에서 사용자 정보 가져오기
-                    state.snsUserName = "카카오사용자" // 실제 구현에서는 SDK에서 가져온 이름 사용
-                    state.snsUserEmail = nil // 실제 구현에서는 SDK에서 가져온 이메일 사용
+                    state.snsUserName = "카카오사용자"
+                    state.snsUserEmail = nil
                     
                     let socialId = state.authSuccessedLoginId ?? ""
                     let name = state.snsUserName
@@ -147,13 +145,12 @@ struct LoginReducer {
             case .googleLoginResponse(let result):
                 switch result {
                 case .success(let socialId):
-                    // 🔧 수정: SNS 로그인 성공 후 서버 로그인 호출
                     state.authSuccessedLoginId = socialId
                     state.authSuccessedLoginType = .google
                     
                     // TODO: 실제 구글 SDK에서 사용자 정보 가져오기
-                    state.snsUserName = "구글사용자" // 실제 구현에서는 SDK에서 가져온 이름 사용
-                    state.snsUserEmail = nil // 실제 구현에서는 SDK에서 가져온 이메일 사용
+                    state.snsUserName = "구글사용자"
+                    state.snsUserEmail = nil
                     
                     let socialId = state.authSuccessedLoginId ?? ""
                     let name = state.snsUserName
@@ -177,24 +174,40 @@ struct LoginReducer {
                     return .none
                 }
             
-            // 🆕 서버 로그인 응답 처리
+            // 🔧 수정: AuthManager 업데이트 추가
             case .serverLoginResponse(let result):
                 state.loadingStatus = .Close
                 switch result {
                 case .success(let response):
                     fLog("서버 로그인 성공: \(response.message)")
                     
-                    if response.data.isNewUser {
-                        // 신규 회원 - 추가 정보 입력 페이지로 이동 (필요한 경우)
-                        state.showAddUserNamePage = true
-                    } else {
-                        // 기존 회원 - 로그인 완료 후 메인 화면으로
-                        return .run { send in
+                    return .run { send in
+                        // 🆕 토큰 저장 전 디버깅
+                        print("💾 [DEBUG] 서버 로그인 성공 - 토큰 저장 중...")
+                        print("    Access Token: \(response.data.accessToken.prefix(20))...")
+                        print("    Refresh Token: \(response.data.refreshToken.prefix(20))...")
+                        
+                        // AuthManager에 로그인 성공 알림
+                        await AuthManager.shared.loginSuccess(
+                            accessToken: response.data.accessToken,
+                            refreshToken: response.data.refreshToken,
+                            userInfo: response.data.user
+                        )
+                        
+                        // 🆕 토큰 저장 후 상태 확인
+                        TokenManager.shared.debugTokenStatus()
+                        
+                        if response.data.isNewUser {
+                            print("👶 [DEBUG] 신규 회원입니다")
+                            // 신규 회원 - 추가 정보 입력 페이지로 이동 (필요한 경우)
+                            // state.showAddUserNamePage = true
+                        } else {
+                            print("👤 [DEBUG] 기존 회원입니다 - 메인 화면으로 이동")
+                            // 기존 회원 - 로그인 완료 후 메인 화면으로
                             try await Task.sleep(nanoseconds: 300_000_000) // 0.3초
                             await send(.dismissView)
                         }
                     }
-                    return .none
                     
                 case .failure(let error):
                     state.alertTitle = "로그인 오류"
@@ -214,7 +227,6 @@ struct LoginReducer {
                 return .none
                 
             case .dismissView:
-                // 실제 화면 닫기는 상위 뷰에서 처리
                 return .none
             }
         }

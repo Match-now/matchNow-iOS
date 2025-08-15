@@ -14,7 +14,7 @@ struct MainNaviReducer {
     struct State: Equatable, Identifiable {
         var id = UUID()
         var mainPage: MainReducer.State
-        //@Presents var memNavi: MemberNaviReducer.State?
+        var isCheckingLogin = false
         
         init() {
             self.mainPage = MainReducer.State.initialState
@@ -26,9 +26,12 @@ struct MainNaviReducer {
         case onLoad
         case task
         case mainPage(MainReducer.Action)
+        case checkLoginStatus
+        case loginStatusChecked(Result<Bool, Error>)
         case startMemberCheck
-        //case memNavi(PresentationAction<MemberNaviReducer.Action>)
     }
+    
+    @Dependency(\.apiClient) var apiClient
     
     var body: some Reducer<State, Action> {
         BindingReducer()
@@ -50,102 +53,112 @@ struct MainNaviReducer {
                 return .none
             case .task:
                 return .run { send in
-                    await send(.startMemberCheck)
+//                    // 🆕 앱 시작 시 종합 진단
+//                    print("\n🚀 [MainNavi] 앱 시작 - 종합 진단 시작")
+//                    print("=" * 50)
+//                    
+//                    // 1. 앱 환경 정보
+//                    print("📱 앱 정보:")
+//                    print("    Bundle ID: \(Bundle.main.bundleIdentifier ?? "Unknown")")
+//                    print("    App Version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")")
+                    
+                    // 2. Keychain 상태 확인
+                    //KeychainManager.debugKeychainStatus()
+                    
+                    // 3. 로그인 상태 확인
+                    await send(.checkLoginStatus)
+                }
+            case .checkLoginStatus:
+                state.isCheckingLogin = true
+                return .run { send in
+                    await send(.loginStatusChecked(
+                        Result {
+                            await AuthManager.shared.checkLoginStatus()
+                        }
+                    ))
+                }
+            case .loginStatusChecked(let result):
+                state.isCheckingLogin = false
+                switch result {
+                case .success(let isLoggedIn):
+                    if !isLoggedIn {
+                        return .run { send in
+                            await send(.startMemberCheck)
+                        }
+                    }
+                    return .none
+                case .failure:
+                    return .run { send in
+                        await send(.startMemberCheck)
+                    }
                 }
             case .startMemberCheck:
                 if NaviRouter.shared.isMemberNaviPresent {
                     return .none
                 }
-                //NaviRouter.shared.isMemberNaviPresent = true
                 
-                //state.memNavi = MemberNaviReducer.State()
-                
-                // MemberNaviView를 navigation으로 push
-                //NaviRouter.shared.push(.memberNavi)
-                
-                //return .none
-                
-                // 직접 MemberRegistView로 이동 (MemberNaviView 건너뛰기)
                 return .run { send in
                     try await Task.sleep(nanoseconds: 100_000_000) // 0.1초 지연
                     await MainActor.run {
                         NaviRouter.shared.isMemberNaviPresent = true
-                        //NaviRouter.shared.push(.memRegist)
                         NaviRouter.shared.push(.memLogin)
                     }
                 }
-                
-                
-                
-                
-//            case .memNavi(let memNaviAction):
-//                return memberNaviActionController(state: &state, action: memNaviAction)
             default:
                 return .none
             }
         }
-//        .ifLet(\.$memNavi, action: \.memNavi) {
-//            MemberNaviReducer()
-//        }
     }
-    
-//    func memberNaviActionController(state: inout State, action: PresentationAction<MemberNaviReducer.Action>) -> Effect<Action> {
-//        switch action {
-//        case .presented(.dismissProcess):
-//            state.memNavi = nil
-//            NaviRouter.shared.isMemberNaviPresent = false
-//            print("==== memscreen dismiss")
-//            //usersClient.sendEvent(.didCompleteMemberProcess(result: userSettings.memberType))
-//            return .none
-//        case .dismiss:
-//            state.memNavi = nil
-//            return .none
-//        default:
-//            return .none
-//        }
-//    }
 }
 
 struct MainNaviView: View {
     let store: StoreOf<MainNaviReducer>
     @StateObject private var router = NaviRouter.shared
+    @StateObject private var authManager = AuthManager.shared
     
     var body: some View {
         NavigationStack(path: $router.mainPath) {
-            MainPage(store: self.store.scope(state: \.mainPage, action: \.mainPage))
-                .navigationDestination(for: StackScreen.self) { stackScreen in
-                    switch stackScreen.screen {
-                    case .memLogin:
-                        if let store = stackScreen.store as? StoreOf<LoginReducer> {
-                            LoginPage(store: store)
-                                .navigationBarBackButtonHidden(true)
-                        }
-                    case .memRegist:
-                        if let store = stackScreen.store as? StoreOf<MemberRegistReducer> {
-                            MemberRegistView(store: store)
-                                .navigationBarBackButtonHidden(true)
-                        }
-                    case .memberNavi:
-                        if let store = stackScreen.store as? StoreOf<MemberNaviReducer> {
-                            MemberNaviView(store: store)
-                                .navigationBarBackButtonHidden(true)
-                        }
-                    default:
-                        if let store = stackScreen.store as? StoreOf<BlankReducer> {
-                            BlankView(store: store)
-                        }
-                        else {
-                            EmptyView()
+            if store.isCheckingLogin {
+                // 로그인 상태 확인 중 로딩 화면
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(1.5)
+                    Text("로그인 상태 확인 중...")
+                        .padding(.top)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.white)
+            } else {
+                MainPage(store: self.store.scope(state: \.mainPage, action: \.mainPage))
+                    .navigationDestination(for: StackScreen.self) { stackScreen in
+                        switch stackScreen.screen {
+                        case .memLogin:
+                            if let store = stackScreen.store as? StoreOf<LoginReducer> {
+                                LoginPage(store: store)
+                                    .navigationBarBackButtonHidden(true)
+                            }
+                        case .memRegist:
+                            if let store = stackScreen.store as? StoreOf<MemberRegistReducer> {
+                                MemberRegistView(store: store)
+                                    .navigationBarBackButtonHidden(true)
+                            }
+                        case .memberNavi:
+                            if let store = stackScreen.store as? StoreOf<MemberNaviReducer> {
+                                MemberNaviView(store: store)
+                                    .navigationBarBackButtonHidden(true)
+                            }
+                        default:
+                            if let store = stackScreen.store as? StoreOf<BlankReducer> {
+                                BlankView(store: store)
+                            }
+                            else {
+                                EmptyView()
+                            }
                         }
                     }
-                }
+            }
         }
-//        .fullScreenCover(store: self.store.scope(state: \.$memNavi, action: \.memNavi)) { store in
-//            MemberNaviView(store: store)
-//                .transaction { t in
-//                    t.disablesAnimations = true
-//                }
-//        }
         .gesture(
             // 메인 레벨에서의 swipe back 제스처
             DragGesture()
@@ -160,11 +173,20 @@ struct MainNaviView: View {
                 }
         )
         .onLoad {
-            print("==== MainNaviView onLoad ====")
             store.send(.onLoad)
         }
         .task {
             await store.send(.task).finish()
+        }
+        .onChange(of: authManager.isLoggedIn) { oldValue, newValue in
+            // 로그인 상태가 변경되면 화면 갱신
+            if newValue {
+                // 로그인됨 - 로그인 화면이 있다면 닫기
+                if !router.mainPath.isEmpty {
+                    router.popRoot()
+                    NaviRouter.shared.isMemberNaviPresent = false
+                }
+            }
         }
     }
 }
