@@ -9,8 +9,8 @@ import Foundation
 import Alamofire
 
 enum UserRouter {
-    case psynetBanner([String:Any])
-    case ticerNoticeDetail([String: Any])
+    case socialLogin(SocialLoginRequest)
+    case refreshToken(RefreshTokenRequest)
 }
 
 extension UserRouter: APIConvertible {
@@ -20,37 +20,46 @@ extension UserRouter: APIConvertible {
     
     var path: String {
         switch self {
-        case .psynetBanner:
-            return "/api/petti/sample_data"
-        case .ticerNoticeDetail:
-            return "/api/petti/sample_data"
+        case .socialLogin:
+            return "/api/v1/app/auth/social-login"
+        case .refreshToken:
+            return "/api/v1/app/auth/refresh"
         }
     }
     
     var header: HTTPHeaders? {
-        let headers = HTTPHeaders()
+        var headers = HTTPHeaders()
         
         switch self {
+        case .socialLogin, .refreshToken:
+            headers["Content-Type"] = "application/json"
         default:
             break
         }
         
         return headers
     }
+    
     var method: HTTPMethod {
-        return .post
+        switch self {
+        case .socialLogin, .refreshToken:
+            return .post
+        default:
+            return .post
+        }
     }
     
     var parameters: Parameters? {
         switch self {
-        case .psynetBanner(let model):
-            return model
-        case .ticerNoticeDetail(let model):
-            return model
+        case .socialLogin(let request):
+            return request.toDictionary()
+        case .refreshToken(let request):
+            return request.toDictionary()
         default:
             return nil
         }
     }
+    
     var multipartFormData: MultipartFormData? {
         switch self {
         default:
@@ -59,21 +68,28 @@ extension UserRouter: APIConvertible {
     }
     
     func asURLRequest() throws -> URLRequest {
-        
-        var request = URLRequest(url: self.baseURL)
+        var request = URLRequest(url: baseURL.appendingPathComponent(path))
         request.method = method
         
         if let headers = header {
             request.headers = headers
         }
         
-        var param = ApiDataRequest.default.defaultParam()
-        if let parameters = parameters {
-            print("[Params] :\(parameters)")
-            param = param.merge(to: parameters)
+        switch self {
+        case .socialLogin, .refreshToken:
+            // JSON 인코딩 사용
+            if let parameters = parameters {
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
+            }
+        default:
+            // 기존 URLEncoding 사용
+            var param = ApiDataRequest.default.defaultParam()
+            if let parameters = parameters {
+                print("[Params] :\(parameters)")
+                param = param.merge(to: parameters)
+            }
+            request = try URLEncoding.default.encode(request, with: param)
         }
-        
-        request = try URLEncoding.default.encode(request, with: param)
         
         return request
     }

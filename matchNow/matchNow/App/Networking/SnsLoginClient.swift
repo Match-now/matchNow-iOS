@@ -78,6 +78,21 @@ class SnsLoginManager: ObservableObject {
     }
 }
 
+//extension SnsLoginClient: DependencyKey {
+//    static let liveValue = Self(
+//        kakaoLogin: {
+//            return try await SnsLoginManager.shared.kakaoLogin()
+//        },
+//        googleLogin: {
+//            return try await SnsLoginManager.shared.googleLogin()
+//        }
+//    )
+//    
+//    static let testValue = Self(
+//        kakaoLogin: { "test_kakao_id" },
+//        googleLogin: { "test_google_id" }
+//    )
+//}
 extension SnsLoginClient: DependencyKey {
     static let liveValue = Self(
         kakaoLogin: {
@@ -88,10 +103,36 @@ extension SnsLoginClient: DependencyKey {
         }
     )
     
-    static let testValue = Self(
-        kakaoLogin: { "test_kakao_id" },
-        googleLogin: { "test_google_id" }
-    )
+    // 🆕 서버 로그인 메서드 추가
+    static func loginToServer(provider: String, socialId: String, name: String, email: String? = nil) async throws -> SocialLoginResponse {
+        let request = SocialLoginRequest(
+            provider: provider,
+            socialId: socialId,
+            email: email,
+            name: name,
+            nickname: nil,
+            profileImageUrl: nil,
+            birthDate: nil,
+            gender: nil,
+            phoneNumber: nil
+        )
+        
+        let router = ApiRouter.user(UserRouter.socialLogin(request))
+        let apiClient = ApiClient.liveValue
+        let result: Result<SocialLoginResponse, LSError> = try await apiClient.apiRequest(router, as: SocialLoginResponse.self)
+        
+        switch result {
+        case .success(let response):
+            // 토큰 저장
+            TokenManager.shared.saveTokens(
+                accessToken: response.data.accessToken,
+                refreshToken: response.data.refreshToken
+            )
+            return response
+        case .failure(let error):
+            throw error
+        }
+    }
 }
 
 extension DependencyValues {

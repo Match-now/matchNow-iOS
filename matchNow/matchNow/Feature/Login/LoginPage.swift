@@ -34,6 +34,10 @@ struct LoginReducer {
         
         // Look around
         var shouldDismiss: Bool = false
+        
+        // 🆕 SNS 사용자 정보 저장
+        var snsUserName: String = ""
+        var snsUserEmail: String?
     }
     
     enum Action {
@@ -50,8 +54,8 @@ struct LoginReducer {
         // Responses
         case kakaoLoginResponse(Result<String, Error>)
         case googleLoginResponse(Result<String, Error>)
-        case userCheckResponse(Result<(Bool, String), Error>)
-        case snsUserResponse(Result<Void, Error>)
+        // 🆕 서버 로그인 응답 추가
+        case serverLoginResponse(Result<SocialLoginResponse, Error>)
         
         // Alert
         case alertDismissed
@@ -108,95 +112,97 @@ struct LoginReducer {
                 }
             
             case .kakaoLoginResponse(let result):
-                state.loadingStatus = .Close
                 switch result {
-                case .success(let idx):
-                    // 성공한 로그인 정보를 state에 저장
-                    state.authSuccessedLoginId = idx
+                case .success(let socialId):
+                    // 🔧 수정: SNS 로그인 성공 후 서버 로그인 호출
+                    state.authSuccessedLoginId = socialId
                     state.authSuccessedLoginType = .KakaoTalk
                     
+                    // TODO: 실제 카카오 SDK에서 사용자 정보 가져오기
+                    state.snsUserName = "카카오사용자" // 실제 구현에서는 SDK에서 가져온 이름 사용
+                    state.snsUserEmail = nil // 실제 구현에서는 SDK에서 가져온 이메일 사용
+                    
+                    let socialId = state.authSuccessedLoginId ?? ""
+                    let name = state.snsUserName
+                    let email = state.snsUserEmail
+                    
                     return .run { send in
-                        await send(.userCheckResponse(
+                        await send(.serverLoginResponse(
                             Result {
-                                // 실제 API 호출로 대체해야 함
-                                try await checkUser(loginId: idx, loginType: .KakaoTalk)
+                                try await SnsLoginClient.loginToServer(
+                                    provider: "kakao",
+                                    socialId: socialId,
+                                    name: name,
+                                    email: email
+                                )
                             }
                         ))
                     }
                 case .failure(let error):
-                    // 로그인 실패시 팝업을 띄우지 않음 (기존 주석 처리된 부분 참고)
+                    state.loadingStatus = .Close
                     fLog("Kakao login failed: \(error)")
                     return .none
                 }
                 
             case .googleLoginResponse(let result):
-                state.loadingStatus = .Close
                 switch result {
-                case .success(let idx):
-                    // 성공한 로그인 정보를 state에 저장
-                    state.authSuccessedLoginId = idx
+                case .success(let socialId):
+                    // 🔧 수정: SNS 로그인 성공 후 서버 로그인 호출
+                    state.authSuccessedLoginId = socialId
                     state.authSuccessedLoginType = .google
                     
+                    // TODO: 실제 구글 SDK에서 사용자 정보 가져오기
+                    state.snsUserName = "구글사용자" // 실제 구현에서는 SDK에서 가져온 이름 사용
+                    state.snsUserEmail = nil // 실제 구현에서는 SDK에서 가져온 이메일 사용
+                    
+                    let socialId = state.authSuccessedLoginId ?? ""
+                    let name = state.snsUserName
+                    let email = state.snsUserEmail
+                    
                     return .run { send in
-                        await send(.userCheckResponse(
+                        await send(.serverLoginResponse(
                             Result {
-                                // 실제 API 호출로 대체해야 함
-                                try await checkUser(loginId: idx, loginType: .google)
+                                try await SnsLoginClient.loginToServer(
+                                    provider: "google",
+                                    socialId: socialId,
+                                    name: name,
+                                    email: email
+                                )
                             }
                         ))
                     }
                 case .failure(let error):
-                    // 로그인 실패시 팝업을 띄우지 않음 (기존 주석 처리된 부분 참고)
+                    state.loadingStatus = .Close
                     fLog("Google login failed: \(error)")
                     return .none
                 }
-                
-            case .userCheckResponse(let result):
-                switch result {
-                case .success(let (isUser, nickname)):
-                    if isUser {
-                        // 기존 회원 - 로그인 처리
-                        state.loadingStatus = .ShowWithTouchable
-                        
-                        // state 값들을 미리 추출
-                        let loginId = state.authSuccessedLoginId ?? ""
-                        let loginType = state.authSuccessedLoginType ?? .KakaoTalk
-                        
-                        return .run { send in
-                            await send(.snsUserResponse(
-                                Result {
-                                    try await addSnsUser(
-                                        loginId: loginId,
-                                        loginType: loginType,
-                                        userNickname: nickname
-                                    )
-                                }
-                            ))
-                        }
-                    } else {
-                        // 새 회원 - 닉네임 설정 페이지로 이동
-                        state.showAddUserNamePage = true
-                        return .none
-                    }
-                case .failure(let error):
-                    state.alertTitle = ""
-                    state.alertMessage = error.localizedDescription
-                    state.showAlert = true
-                    return .none
-                }
-                
-            case .snsUserResponse(let result):
+            
+            // 🆕 서버 로그인 응답 처리
+            case .serverLoginResponse(let result):
                 state.loadingStatus = .Close
                 switch result {
-                case .success:
-                    // 로그인 성공 - 0.3초 후 화면 닫기
-                    return .run { send in
-                        try await Task.sleep(nanoseconds: 300_000_000) // 0.3초
-                        await send(.dismissView)
+                case .success(let response):
+                    fLog("서버 로그인 성공: \(response.message)")
+                    
+                    if response.data.isNewUser {
+                        // 신규 회원 - 추가 정보 입력 페이지로 이동 (필요한 경우)
+                        state.showAddUserNamePage = true
+                    } else {
+                        // 기존 회원 - 로그인 완료 후 메인 화면으로
+                        return .run { send in
+                            try await Task.sleep(nanoseconds: 300_000_000) // 0.3초
+                            await send(.dismissView)
+                        }
                     }
+                    return .none
+                    
                 case .failure(let error):
-                    state.alertTitle = ""
-                    state.alertMessage = error.localizedDescription
+                    state.alertTitle = "로그인 오류"
+                    if let lsError = error as? LSError {
+                        state.alertMessage = "로그인에 실패했습니다."
+                    } else {
+                        state.alertMessage = error.localizedDescription
+                    }
                     state.showAlert = true
                     return .none
                 }
@@ -212,18 +218,6 @@ struct LoginReducer {
                 return .none
             }
         }
-    }
-    
-    // MARK: - Helper Functions (실제 구현에서는 API Client로 이동)
-    private func checkUser(loginId: String, loginType: LoginUserType) async throws -> (Bool, String) {
-        // 실제 API 구현으로 대체
-        // ApiControl.userCheck 호출
-        return (false, "") // 임시 반환값
-    }
-    
-    private func addSnsUser(loginId: String, loginType: LoginUserType, userNickname: String) async throws {
-        // 실제 API 구현으로 대체
-        // ApiControl.addSnsUser 호출
     }
 }
 
